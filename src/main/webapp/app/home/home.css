@@ -2,11 +2,21 @@
 Main page styles
 ========================================================================== */
 
+#rfb-home-intro {
+    background: url("../../content/images/beer-light.jpg");
+    background-size: contain;
+}
+
+.display-4 {
+    font-family: "Walter Turncoat", cursive;
+    margin-top: 16px;
+}
+
 .hipster {
     display: inline-block;
     width: 347px;
     height: 497px;
-    background: url("../../content/images/hipster.png") no-repeat center top;
+    /*background: url("../../content/images/hipster.png") no-repeat center top;*/
     background-size: contain;
 }
 
