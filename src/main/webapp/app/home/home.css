@@ -7,6 +7,16 @@ Main page styles
     background-size: contain;
 }
 
+.image-thumbnail {
+    padding: .25rem;
+    /* background-color: #fff; */
+    /* border: 1px solid #ddd; */
+    /* border-radius: .25rem; */
+    transition: all .2s ease-in-out;
+    max-width: 100%;
+    height: auto;
+}
+
 .display-4 {
     font-family: "Walter Turncoat", cursive;
     margin-top: 16px;
