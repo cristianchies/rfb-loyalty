@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {RfbEventAttendanceService} from '../entities/rfb-event-attendance';
+import {Principal, ResponseWrapper, UserService} from '../shared';
+import {RfbLocation, RfbLocationService} from '../entities/rfb-location';
+import {JhiAlertService} from 'ng-jhipster';
 
 @Component({
   selector: 'jhi-leaderboard-component',
@@ -7,9 +11,45 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeaderboardComponentComponent implements OnInit {
 
-  constructor() { }
+    actualLocation: RfbLocation;
+    locationList: RfbLocation[];
 
-  ngOnInit() {
-  }
+    constructor(
+        // private principal: Principal,
+        // private account: Account,
+        // private userService: UserService,
+        private locationService: RfbLocationService,
+        private evAttdnceService: RfbEventAttendanceService,
+        private alertService: JhiAlertService
+    ) {
+    }
+
+    ngOnInit() {
+        this.loadAllLocations();
+        // this.principal.identity().then((account) => {
+        //     this.account = account;
+        //     this.userService.find(this.principal.identity()).subscribe((user) => {
+        //         this.user = user;
+        //         console.log(this.user[0]);
+        //     });
+        // });
+    }
+
+    loadAllLocations() {
+        this.locationService.query({
+            sort: ['locationName', 'ASC']
+        }).subscribe(
+            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+            (res: ResponseWrapper) => this.onError(res.json)
+        );
+    }
+
+    private onSuccess(data, headers) {
+        this.locationList = data;
+    }
+
+    private onError(error) {
+        this.alertService.error(error.message, null, null);
+    }
 
 }

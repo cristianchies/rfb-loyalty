@@ -43,8 +43,7 @@ import { LeaderboardComponentComponent } from './leaderboard-component/leaderboa
         NavbarComponent,
         ErrorComponent,
         PageRibbonComponent,
-        FooterComponent,
-        LeaderboardComponentComponent
+        FooterComponent
     ],
     providers: [
         ProfileService,

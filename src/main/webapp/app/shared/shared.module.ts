@@ -17,6 +17,7 @@ import {
     SocialService,
     JhiLoginModalComponent
 } from './';
+import {LeaderboardComponentComponent} from "../leaderboard-component/leaderboard-component.component";
 
 @NgModule({
     imports: [

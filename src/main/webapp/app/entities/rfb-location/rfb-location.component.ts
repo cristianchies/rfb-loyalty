@@ -14,7 +14,7 @@ import {PaginationConfig} from '../../blocks/config/uib-pagination.config';
 })
 export class RfbLocationComponent implements OnInit, OnDestroy {
 
-currentAccount: any;
+    currentAccount: any;
     rfbLocations: RfbLocation[];
     error: any;
     success: any;
@@ -53,24 +53,28 @@ currentAccount: any;
         this.rfbLocationService.query({
             page: this.page - 1,
             size: this.itemsPerPage,
-            sort: this.sort()}).subscribe(
+            sort: this.sort()
+        }).subscribe(
             (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
             (res: ResponseWrapper) => this.onError(res.json)
         );
     }
+
     loadPage(page: number) {
         if (page !== this.previousPage) {
             this.previousPage = page;
             this.transition();
         }
     }
+
     transition() {
-        this.router.navigate(['/rfb-location'], {queryParams:
-            {
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
-            }
+        this.router.navigate(['/rfb-location'], {
+            queryParams:
+                {
+                    page: this.page,
+                    size: this.itemsPerPage,
+                    sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
+                }
         });
         this.loadAll();
     }
@@ -83,6 +87,7 @@ currentAccount: any;
         }]);
         this.loadAll();
     }
+
     ngOnInit() {
         this.loadAll();
         this.principal.identity().then((account) => {
@@ -98,6 +103,7 @@ currentAccount: any;
     trackId(index: number, item: RfbLocation) {
         return item.id;
     }
+
     registerChangeInRfbLocations() {
         this.eventSubscriber = this.eventManager.subscribe('rfbLocationListModification', (response) => this.loadAll());
     }
@@ -117,6 +123,7 @@ currentAccount: any;
         // this.page = pagingParams.page;
         this.rfbLocations = data;
     }
+
     private onError(error) {
         this.alertService.error(error.message, null, null);
     }

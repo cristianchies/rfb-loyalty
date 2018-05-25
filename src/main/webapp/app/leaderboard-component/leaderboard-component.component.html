@@ -1,8 +1,11 @@
-<div class="form-group">
-    <label class="form-control-label" for="field_location">Location</label>
-    <select class="form-control" id="field_location" name="location" [(ngModel)]="location" #location="ngModel" required>
-        <option [ngValue]="null"></option>
-        <option [ngValue]="location.id" *ngFor="let location of locations">{{location.locationName}}</option>
-    </select>
-    <small *ngIf="!model.location"><a href="/#/settings">SET HOME LOCATION</a></small>
+<div class="card col-md-12">
+    <div class="form-group">
+        <label class="form-control-label" for="field_location">Locations</label>
+        <select class="form-control" id="field_location" name="locationOption" [(ngModel)]="actualLocation">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="locationOption.id" *ngFor="let locationOption of locationList">
+                {{locationOption.locationName}}
+            </option>
+        </select>
+    </div>
 </div>
