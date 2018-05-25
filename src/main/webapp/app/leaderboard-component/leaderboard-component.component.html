@@ -1,11 +1,55 @@
 <div class="card col-md-12">
     <div class="form-group">
         <label class="form-control-label" for="field_location">Locations</label>
-        <select class="form-control" id="field_location" name="locationOption" [(ngModel)]="actualLocation">
+        <select class="form-control" id="field_location" name="locationOption" [(ngModel)]="actualLocationId" (change)="onSelect">
             <option [ngValue]="null"></option>
-            <option [ngValue]="locationOption.id" *ngFor="let locationOption of locationList">
+            <option [ngValue]="locationOption.id" *ngFor="let locationOption of locationList; let i=index">
                 {{locationOption.locationName}}
             </option>
         </select>
+    </div>
+
+    <div class="table-responsive" *ngIf="rfbLocations">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
+                <th jhiSortBy="locationName"><span>Location Name</span> <span class="fa fa-sort"></span></th>
+                <th jhiSortBy="runDayOfWeek"><span>Run Day Of Week</span> <span class="fa fa-sort"></span></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let rfbLocation of rfbLocations ;trackBy: trackId">
+                <td><a [routerLink]="['../rfb-location', rfbLocation.id ]">{{rfbLocation.id}}</a></td>
+                <td>{{rfbLocation.locationName}}</td>
+                <td>{{rfbLocation.runDayOfWeek}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../rfb-location', rfbLocation.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'rfb-location/'+ rfbLocation.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'rfb-location/'+ rfbLocation.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>

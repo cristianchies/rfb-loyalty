@@ -3,6 +3,7 @@ package com.rfb.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.rfb.service.RfbLocationService;
 import com.rfb.service.dto.RfbLocationDTO;
+import com.rfb.service.dto.location.RfbLeaderForLocationDTO;
 import com.rfb.web.rest.util.HeaderUtil;
 import com.rfb.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -121,5 +122,13 @@ public class RfbLocationResource {
         log.debug("REST request to delete RfbLocation : {}", id);
         rfbLocationService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    @Timed
+    @GetMapping("/rfb-locations/{id}")
+    public ResponseEntity<List<RfbLeaderForLocationDTO>> getRfbLeaderForLocation(@PathVariable Long id) {
+        log.debug("REST request to get RfbLocation : {}", id);
+        List<RfbLeaderForLocationDTO> rfbLocationDTO = rfbLocationService.getRfbLeaderForLocation(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rfbLocationDTO));
     }
 }

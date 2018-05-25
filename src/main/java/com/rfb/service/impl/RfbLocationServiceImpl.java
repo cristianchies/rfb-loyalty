@@ -1,10 +1,16 @@
 package com.rfb.service.impl;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.rfb.domain.RfbEvent;
 import com.rfb.domain.RfbLocation;
+import com.rfb.domain.User;
 import com.rfb.repository.RfbLocationRepository;
 import com.rfb.service.RfbLocationService;
 import com.rfb.service.dto.RfbLocationDTO;
+import com.rfb.service.dto.location.RfbLeaderForLocationDTO;
 import com.rfb.service.mapper.RfbLocationMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -12,19 +18,27 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 
 /**
  * Service Implementation for managing RfbLocation.
  */
 @Service
 @Transactional
-public class RfbLocationServiceImpl implements RfbLocationService{
+public class RfbLocationServiceImpl implements RfbLocationService {
 
     private final Logger log = LoggerFactory.getLogger(RfbLocationServiceImpl.class);
 
-    private final RfbLocationRepository rfbLocationRepository;
+    private RfbLocationRepository rfbLocationRepository;
 
-    private final RfbLocationMapper rfbLocationMapper;
+    private RfbLocationMapper rfbLocationMapper;
+
+    public RfbLocationServiceImpl(){
+
+    }
 
     public RfbLocationServiceImpl(RfbLocationRepository rfbLocationRepository, RfbLocationMapper rfbLocationMapper) {
         this.rfbLocationRepository = rfbLocationRepository;
@@ -46,10 +60,10 @@ public class RfbLocationServiceImpl implements RfbLocationService{
     }
 
     /**
-     *  Get all the rfbLocations.
+     * Get all the rfbLocations.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +74,10 @@ public class RfbLocationServiceImpl implements RfbLocationService{
     }
 
     /**
-     *  Get one rfbLocation by id.
+     * Get one rfbLocation by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -74,13 +88,47 @@ public class RfbLocationServiceImpl implements RfbLocationService{
     }
 
     /**
-     *  Delete the  rfbLocation by id.
+     * Delete the  rfbLocation by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete RfbLocation : {}", id);
         rfbLocationRepository.delete(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<RfbLeaderForLocationDTO> getRfbLeaderForLocation(Long locationId) {
+        List<RfbLeaderForLocationDTO> retorno = Lists.newArrayList();
+        RfbLocation location = getOneLocation(locationId);
+
+        Map<Long, RfbLeaderForLocationDTO> userInfoMap = Maps.newHashMap();
+        location.getRvbEvents().stream()
+            .forEach(event -> {
+                event.getRfbEventAttendances().stream()
+                    .forEach(evAtt -> {
+                        User user = evAtt.getUser();
+                        Long userId = user.getId();
+                        RfbLeaderForLocationDTO dto = userInfoMap.get(userId);
+                        if (dto == null) {
+                            dto = new RfbLeaderForLocationDTO();
+                            String name = user.getFirstName();
+                            String lastName = user.getLastName();
+                            if (StringUtils.isNoneBlank(lastName)) {
+                                name = lastName + ", " + name;
+                            }
+                            dto.setUserName(name);
+                        } else {
+                            dto.setTotalRuns(dto.getTotalRuns() + 1);
+                        }
+                        userInfoMap.put(userId, dto);
+                    });
+            });
+        return Lists.newArrayList(userInfoMap.values());
+    }
+
+    protected RfbLocation getOneLocation(Long locationId) {
+        return rfbLocationRepository.findOne(locationId);
     }
 }

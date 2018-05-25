@@ -3,14 +3,17 @@ import {RfbEventAttendanceService} from '../entities/rfb-event-attendance';
 import {Principal, ResponseWrapper, UserService} from '../shared';
 import {RfbLocation, RfbLocationService} from '../entities/rfb-location';
 import {JhiAlertService} from 'ng-jhipster';
+import {log} from "util";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
-  selector: 'jhi-leaderboard-component',
-  templateUrl: './leaderboard-component.component.html',
-  styles: []
+    selector: 'jhi-leaderboard-component',
+    templateUrl: './leaderboard-component.component.html',
+    styles: []
 })
 export class LeaderboardComponentComponent implements OnInit {
 
+    actualLocationId: number;
     actualLocation: RfbLocation;
     locationList: RfbLocation[];
 
@@ -40,6 +43,15 @@ export class LeaderboardComponentComponent implements OnInit {
             sort: ['locationName', 'ASC']
         }).subscribe(
             (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+            (res: ResponseWrapper) => this.onError(res.json)
+        );
+    }
+
+    onSelect() {
+        this.locationService.find(this.actualLocationId).subscribe(
+            (location: RfbLocation) => {
+                this.actualLocation = location;
+            },
             (res: ResponseWrapper) => this.onError(res.json)
         );
     }
