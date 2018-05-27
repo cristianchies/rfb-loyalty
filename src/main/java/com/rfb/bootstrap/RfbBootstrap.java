@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -62,6 +63,10 @@ public class RfbBootstrap implements CommandLineRunner {
         rfbUser.addAuthority(authorityRepository.findOne("ROLE_ORGANIZER"));
         userRepository.save(rfbUser);
 
+        User runner = Optional.ofNullable(
+            userRepository.findOneByLogin("runner")
+        ).orElseThrow(()->new IllegalArgumentException("User runner not found")).get();
+
         //load data
         RfbLocation aleAndWitch = getRfbLocation("St Pete - Ale and the Witch", DayOfWeek.MONDAY.getValue());
 
@@ -71,6 +76,8 @@ public class RfbBootstrap implements CommandLineRunner {
         RfbEvent aleEvent = getRfbEvent(aleAndWitch);
 
         getRfbEventAttendance(rfbUser, aleEvent);
+        getRfbEventAttendance(rfbUser, aleEvent);// adding two attendance for this user
+        getRfbEventAttendance(runner, aleEvent);// adding two attendance for this user
 
         RfbLocation ratc = getRfbLocation("St Pete - Right Around The Corner", DayOfWeek.TUESDAY.getValue());
 

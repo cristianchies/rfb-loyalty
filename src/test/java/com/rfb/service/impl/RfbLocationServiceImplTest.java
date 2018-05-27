@@ -15,6 +15,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.List;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -53,7 +55,7 @@ public class RfbLocationServiceImplTest {
         attnd.setUser(secondUser);
         eventAttSet.add(attnd);
         attnd = new RfbEventAttendance();
-        attnd.setUser(secondUser);
+        attnd.setUser(secondUser);// adding 2 counts for second user
         eventAttSet.add(attnd);
         event.setRfbEventAttendances(eventAttSet);
         events.add(event);
@@ -63,13 +65,12 @@ public class RfbLocationServiceImplTest {
         Mockito.doReturn(location).when(service).getOneLocation(locationId);
         List<RfbLeaderForLocationDTO> actual = service.getRfbLeaderForLocation(locationId);
 
-        assertTrue(
-            actual
-                .stream()
-                .anyMatch(
-                    it -> 2 == it.getTotalRuns() && "Jones, Johny".equals(it.getUserName())
-                )
-        );
+        assertNotNull(actual);
+        assertTrue(actual.size() > 0);
+        // as it must be sorted by 'running count' the first position must have the highest running count
+        RfbLeaderForLocationDTO actualData = actual.get(0);
+        assertEquals(2, actualData.getTotalRuns());
+        assertEquals(secondUser.getLastName() + ", " + secondUser.getFirstName(), actualData.getUserName());
     }
 
 }
