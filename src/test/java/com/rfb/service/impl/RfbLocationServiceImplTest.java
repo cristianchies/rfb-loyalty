@@ -55,14 +55,21 @@ public class RfbLocationServiceImplTest {
         attnd = new RfbEventAttendance();
         attnd.setUser(secondUser);
         eventAttSet.add(attnd);
-
         event.setRfbEventAttendances(eventAttSet);
+        events.add(event);
+
         location.setRvbEvents(events);
 
         Mockito.doReturn(location).when(service).getOneLocation(locationId);
         List<RfbLeaderForLocationDTO> actual = service.getRfbLeaderForLocation(locationId);
 
-        assertTrue(actual.stream().anyMatch(it -> 2 == it.getTotalRuns()));
+        assertTrue(
+            actual
+                .stream()
+                .anyMatch(
+                    it -> 2 == it.getTotalRuns() && "Jones, Johny".equals(it.getUserName())
+                )
+        );
     }
 
 }

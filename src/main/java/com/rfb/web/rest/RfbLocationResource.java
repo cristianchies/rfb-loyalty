@@ -125,10 +125,10 @@ public class RfbLocationResource {
     }
 
     @Timed
-    @GetMapping("/rfb-locations/{id}")
+    @GetMapping("/rfb-locations/{id}/leaders")
     public ResponseEntity<List<RfbLeaderForLocationDTO>> getRfbLeaderForLocation(@PathVariable Long id) {
         log.debug("REST request to get RfbLocation : {}", id);
         List<RfbLeaderForLocationDTO> rfbLocationDTO = rfbLocationService.getRfbLeaderForLocation(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(rfbLocationDTO));
+        return new ResponseEntity<>(rfbLocationDTO, HttpStatus.OK);
     }
 }

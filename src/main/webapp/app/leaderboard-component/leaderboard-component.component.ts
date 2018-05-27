@@ -5,6 +5,7 @@ import {RfbLocation, RfbLocationService} from '../entities/rfb-location';
 import {JhiAlertService} from 'ng-jhipster';
 import {log} from "util";
 import {forEach} from "@angular/router/src/utils/collection";
+import {RfbLeaderForLocation} from "./rfb-leader-for.location";
 
 @Component({
     selector: 'jhi-leaderboard-component',
@@ -16,6 +17,7 @@ export class LeaderboardComponentComponent implements OnInit {
     actualLocationId: number;
     actualLocation: RfbLocation;
     locationList: RfbLocation[];
+    leaderList: RfbLeaderForLocation[];
 
     constructor(
         // private principal: Principal,
@@ -50,8 +52,18 @@ export class LeaderboardComponentComponent implements OnInit {
     onSelect() {
         this.locationService.find(this.actualLocationId).subscribe(
             (location: RfbLocation) => {
+                console.log('location' + location);
                 this.actualLocation = location;
+                this.getRfbLeaderForLocation();
             },
+            (res: ResponseWrapper) => this.onError(res.json)
+        );
+    }
+
+    getRfbLeaderForLocation() {
+        this.locationService.getRfbLeaderForLocation(this.actualLocationId).subscribe(
+            (res: ResponseWrapper) =>
+                this.leaderList = res.json,
             (res: ResponseWrapper) => this.onError(res.json)
         );
     }
