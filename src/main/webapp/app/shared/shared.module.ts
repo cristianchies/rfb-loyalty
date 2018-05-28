@@ -1,23 +1,22 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {DatePipe} from '@angular/common';
 
 import {
-    RfbloyaltySharedLibsModule,
-    RfbloyaltySharedCommonModule,
-    CSRFService,
-    AuthServerProvider,
     AccountService,
-    UserService,
-    StateStorageService,
-    LoginService,
-    LoginModalService,
-    Principal,
+    AuthServerProvider,
+    CSRFService,
     HasAnyAuthorityDirective,
+    JhiLoginModalComponent,
     JhiSocialComponent,
+    LoginModalService,
+    LoginService,
+    Principal,
+    RfbloyaltySharedCommonModule,
+    RfbloyaltySharedLibsModule,
     SocialService,
-    JhiLoginModalComponent
+    StateStorageService,
+    UserService
 } from './';
-import {LeaderboardComponentComponent} from "../leaderboard-component/leaderboard-component.component";
 
 @NgModule({
     imports: [

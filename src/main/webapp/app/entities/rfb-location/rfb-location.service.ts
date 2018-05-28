@@ -5,7 +5,6 @@ import {SERVER_API_URL} from '../../app.constants';
 
 import {RfbLocation} from './rfb-location.model';
 import {createRequestOption, ResponseWrapper} from '../../shared';
-import {RfbLeaderForLocation} from "../../leaderboard-component/rfb-leader-for.location";
 
 @Injectable()
 export class RfbLocationService {
@@ -50,7 +49,6 @@ export class RfbLocationService {
         return this.http.get(`${this.resourceUrl}/${id}/leaders`, options)
             .map((res: Response) => this.convertResponse(res));
     }
-
 
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
