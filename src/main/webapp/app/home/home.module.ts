@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { RfbloyaltySharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
-import {LeaderboardComponentComponent} from '../leaderboard-component/leaderboard-component.component';
+import {LeaderboardComponent} from '../leaderboard-component/leaderboard.component';
 
 @NgModule({
     imports: [
@@ -13,7 +13,7 @@ import {LeaderboardComponentComponent} from '../leaderboard-component/leaderboar
     ],
     declarations: [
         HomeComponent,
-        LeaderboardComponentComponent
+        LeaderboardComponent
     ],
     entryComponents: [
     ],

@@ -7,10 +7,10 @@ import {RfbLeaderForLocation} from './rfb-leader-for.location';
 
 @Component({
     selector: 'jhi-leaderboard-component',
-    templateUrl: './leaderboard-component.component.html',
+    templateUrl: './leaderboard.component.html',
     styles: []
 })
-export class LeaderboardComponentComponent implements OnInit {
+export class LeaderboardComponent implements OnInit {
 
     actualLocationId: number;
     actualLocation: RfbLocation;

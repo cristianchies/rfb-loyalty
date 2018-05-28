@@ -1,30 +1,28 @@
 import './vendor.ts';
 
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { Ng2Webstorage } from 'ng2-webstorage';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {Ng2Webstorage} from 'ng2-webstorage';
 
-import { RfbloyaltySharedModule, UserRouteAccessService } from './shared';
-import { RfbloyaltyHomeModule } from './home/home.module';
-import { RfbloyaltyAdminModule } from './admin/admin.module';
-import { RfbloyaltyAccountModule } from './account/account.module';
-import { RfbloyaltyEntityModule } from './entities/entity.module';
+import {RfbloyaltySharedModule, UserRouteAccessService} from './shared';
+import {RfbloyaltyHomeModule} from './home';
+import {RfbloyaltyAdminModule} from './admin/admin.module';
+import {RfbloyaltyAccountModule} from './account/account.module';
+import {RfbloyaltyEntityModule} from './entities/entity.module';
 
-import { customHttpProvider } from './blocks/interceptor/http.provider';
-import { PaginationConfig } from './blocks/config/uib-pagination.config';
-
-// jhipster-needle-angular-add-module-import JHipster will add new module here
-
+import {customHttpProvider} from './blocks/interceptor/http.provider';
+import {PaginationConfig} from './blocks/config/uib-pagination.config';
 import {
+    ErrorComponent,
+    FooterComponent,
     JhiMainComponent,
     LayoutRoutingModule,
     NavbarComponent,
-    FooterComponent,
-    ProfileService,
     PageRibbonComponent,
-    ErrorComponent
+    ProfileService
 } from './layouts';
-import { LeaderboardComponentComponent } from './leaderboard-component/leaderboard-component.component';
+
+// jhipster-needle-angular-add-module-import JHipster will add new module here
 
 @NgModule({
     imports: [
